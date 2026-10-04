@@ -200,7 +200,7 @@ def homologar_marca(marca):
     return limpia.replace(correcciones)
 
 
-def justificar(marca_original, marca_homologada):
+def justificar(marca_original):
     """Explica en texto qué regla convirtió una marca en su forma homologada.
 
     Se usa para llenar la columna "Justificación" de la tabla del inciso 8.
@@ -252,7 +252,7 @@ def construir_tabla_homologacion(df_cd, df_uci):
         # Explica la transformación aplicada en cada fuente donde exista la marca.
         for fuente, col in (("CarDekho", "Marca_CarDekho"), ("UCI", "Marca_UCI")):
             if pd.notna(fila[col]):
-                partes.append(f"{fuente}: {justificar(fila[col], fila['Marca_Homologada'])}")
+                partes.append(f"{fuente}: {justificar(fila[col])}")
         # Indica si la marca encontró pareja en la otra fuente.
         if pd.isna(fila["Marca_CarDekho"]):
             partes.append("Sin equivalente en CarDekho")
