@@ -38,18 +38,24 @@ Para maximizar la eficiencia y el trabajo en equipo, las secciones de la prácti
 ```text
 .
 ├── README.md                           # Documentación general y asignaciones (este archivo)
+├── observaciones.md                    # Hallazgos y decisiones sobre los datos (bitácora del equipo)
 ├── Prácticas_1_y_2_Analitica.ipynb     # Jupyter Notebook principal con la ejecución
+├── Seccion_B_Melanie.ipynb             # Sección B (incisos 4–8): homologación de marcas
 ├── data/
-│   ├── raw/
-│   │   ├── CarDekho.csv                # Dataset original 1
-│   │   └── Automobile_UCI.csv          # Dataset original 2
+│   ├── raw/                            # (ignorada por git) los datasets se descargan por código
 │   └── processed/
-│       ├── tabla_homologacion.csv      # Tabla de correspondencia de marcas
+│       ├── tabla_homologacion_marcas.csv # Tabla de correspondencia de marcas (inciso 8)
 │       └── dataset_final_procesado.csv # Dataset resultante tras el pipeline completo
+├── figuras/                            # Figuras generadas por los notebooks para el reporte
 ├── docs/
 │   └── Reporte_Practica_1_y_2.pdf      # Reporte formal impreso/digital
-└── src/                                # Scripts/módulos auxiliares de Python (opcional)
+└── src/
+    ├── homologacion.py                 # Funciones de la Sección B
+    ├── requirements.txt                # Dependencias
+    └── COMO_EJECUTAR.md                # Guía para crear el entorno y ejecutar
 ```
+
+> Los datasets **no** se suben al repositorio: CarDekho se descarga con `kagglehub` y UCI Automobile con `ucimlrepo` (ver `src/COMO_EJECUTAR.md`).
 
 ---
 

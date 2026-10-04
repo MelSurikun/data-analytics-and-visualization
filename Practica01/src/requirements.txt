@@ -1,0 +1,17 @@
+# Dependencias de la Práctica 01 (Python 3.10 o superior)
+# Instalar con:  pip install -r src/requirements.txt
+
+# Procesamiento de datos
+pandas>=2.2
+numpy>=1.26
+
+# Visualización
+matplotlib>=3.8
+seaborn>=0.13
+
+# Descarga de datasets por código (no se suben al repositorio)
+kagglehub[pandas-datasets]>=0.3   # CarDekho (Kaggle)
+ucimlrepo>=0.0.7                  # UCI Automobile
+
+# Entorno de notebooks
+jupyter>=1.0

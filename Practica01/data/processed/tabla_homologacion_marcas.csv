@@ -1,0 +1,43 @@
+﻿Marca_CarDekho,Marca_UCI,Marca_Homologada,Correspondencia,Justificación
+Audi,audi,audi,True,CarDekho: Normalización: minúsculas | UCI: Sin cambios necesarios | Correspondencia encontrada
+BMW,bmw,bmw,True,CarDekho: Normalización: minúsculas | UCI: Sin cambios necesarios | Correspondencia encontrada
+Honda,honda,honda,True,CarDekho: Normalización: minúsculas | UCI: Sin cambios necesarios | Correspondencia encontrada
+Isuzu,isuzu,isuzu,True,CarDekho: Normalización: minúsculas | UCI: Sin cambios necesarios | Correspondencia encontrada
+ISUZU,isuzu,isuzu,True,CarDekho: Normalización: minúsculas | UCI: Sin cambios necesarios | Correspondencia encontrada
+Jaguar,jaguar,jaguar,True,CarDekho: Normalización: minúsculas | UCI: Sin cambios necesarios | Correspondencia encontrada
+Mercedes-Benz,mercedes-benz,mercedes benz,True,"CarDekho: Normalización: minúsculas, guion reemplazado por espacio | UCI: Normalización: guion reemplazado por espacio | Correspondencia encontrada"
+Mercedes-AMG,mercedes-benz,mercedes benz,True,CarDekho: AMG es la división deportiva de Mercedes-Benz (mismo fabricante) | UCI: Normalización: guion reemplazado por espacio | Correspondencia encontrada
+Nissan,nissan,nissan,True,CarDekho: Normalización: minúsculas | UCI: Sin cambios necesarios | Correspondencia encontrada
+Porsche,porsche,porsche,True,CarDekho: Normalización: minúsculas | UCI: Sin cambios necesarios | Correspondencia encontrada
+Renault,renault,renault,True,CarDekho: Normalización: minúsculas | UCI: Sin cambios necesarios | Correspondencia encontrada
+Toyota,toyota,toyota,True,CarDekho: Normalización: minúsculas | UCI: Sin cambios necesarios | Correspondencia encontrada
+Volkswagen,volkswagen,volkswagen,True,CarDekho: Normalización: minúsculas | UCI: Sin cambios necesarios | Correspondencia encontrada
+Volvo,volvo,volvo,True,CarDekho: Normalización: minúsculas | UCI: Sin cambios necesarios | Correspondencia encontrada
+,alfa-romero,alfa romeo,False,UCI: Error ortográfico en UCI: el fabricante es Alfa Romeo | Sin equivalente en CarDekho
+Bentley,,bentley,False,CarDekho: Normalización: minúsculas | Sin equivalente en UCI
+,chevrolet,chevrolet,False,UCI: Sin cambios necesarios | Sin equivalente en CarDekho
+Datsun,,datsun,False,CarDekho: Normalización: minúsculas | Sin equivalente en UCI
+,dodge,dodge,False,UCI: Sin cambios necesarios | Sin equivalente en CarDekho
+Ferrari,,ferrari,False,CarDekho: Normalización: minúsculas | Sin equivalente en UCI
+Force,,force,False,CarDekho: Normalización: minúsculas | Sin equivalente en UCI
+Ford,,ford,False,CarDekho: Normalización: minúsculas | Sin equivalente en UCI
+Hyundai,,hyundai,False,CarDekho: Normalización: minúsculas | Sin equivalente en UCI
+Jeep,,jeep,False,CarDekho: Normalización: minúsculas | Sin equivalente en UCI
+Kia,,kia,False,CarDekho: Normalización: minúsculas | Sin equivalente en UCI
+Land,,land rover,False,CarDekho: Marca compuesta truncada por la regla 'primera palabra' (Land Rover) | Sin equivalente en UCI
+Lexus,,lexus,False,CarDekho: Normalización: minúsculas | Sin equivalente en UCI
+Mahindra,,mahindra,False,CarDekho: Normalización: minúsculas | Sin equivalente en UCI
+Maruti,,maruti,False,CarDekho: Normalización: minúsculas | Sin equivalente en UCI
+Maserati,,maserati,False,CarDekho: Normalización: minúsculas | Sin equivalente en UCI
+,mazda,mazda,False,UCI: Sin cambios necesarios | Sin equivalente en CarDekho
+,mercury,mercury,False,UCI: Sin cambios necesarios | Sin equivalente en CarDekho
+MG,,mg,False,CarDekho: Normalización: minúsculas | Sin equivalente en UCI
+Mini,,mini,False,CarDekho: Normalización: minúsculas | Sin equivalente en UCI
+,mitsubishi,mitsubishi,False,UCI: Sin cambios necesarios | Sin equivalente en CarDekho
+,peugot,peugeot,False,UCI: Error ortográfico en UCI: el fabricante es Peugeot | Sin equivalente en CarDekho
+,plymouth,plymouth,False,UCI: Sin cambios necesarios | Sin equivalente en CarDekho
+Rolls-Royce,,rolls royce,False,"CarDekho: Normalización: minúsculas, guion reemplazado por espacio | Sin equivalente en UCI"
+,saab,saab,False,UCI: Sin cambios necesarios | Sin equivalente en CarDekho
+Skoda,,skoda,False,CarDekho: Normalización: minúsculas | Sin equivalente en UCI
+,subaru,subaru,False,UCI: Sin cambios necesarios | Sin equivalente en CarDekho
+Tata,,tata,False,CarDekho: Normalización: minúsculas | Sin equivalente en UCI

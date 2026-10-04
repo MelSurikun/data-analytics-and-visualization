@@ -1,0 +1,11 @@
+#extras
+Practica01/temp
+
+# Datasets crudos: NO se suben a GitHub (se descargan por código)
+Practica01/data/raw/
+
+# Python / Jupyter
+__pycache__/
+.ipynb_checkpoints/
+venv/
+.venv/
