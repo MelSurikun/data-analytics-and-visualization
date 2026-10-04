@@ -61,3 +61,10 @@ En este archivo registramos los **hallazgos, diferencias con las instrucciones y
 - **Observación:** `fuel_type = Electric` tiene solo 4 registros (0.03 %) y los 4 son Toyota Camry, probablemente la versión híbrida. En las gráficas aparece como el combustible más caro, pero el promedio no es representativo.
 - **Decisión:** se documenta. Se sugiere considerarla al filtrar o codificar, por ejemplo agrupándola con otra clase o excluyéndola, en lugar de tratarla como una categoría con peso propio.
 - **Dónde está:** `Seccion_A_Ricardo.ipynb`, secciones A.2 (clases) y A.3 (Figura A.9).
+
+## 6. UCI guarda puertas y cilindros como texto con palabras
+- **Encontrada por:** Ricardo · **Fecha:** 04/10/2026
+- **Afecta a:** incisos 21 y 22, conversión a numérico (Santiago).
+- **Observación:** `num-of-doors` (`two`, `four`) y `num-of-cylinders` (`two` a `twelve`) son cuantitativas, pero el 100 % de sus valores son números escritos con palabras. `num-of-doors` además tiene 2 nulos.
+- **Decisión:** en el EDA inicial se analizan por clase, sin calcular sus estadísticos. Deben convertirse a número con un diccionario de palabras (`two` → 2, `four` → 4, etc.) en el inciso 22.
+- **Dónde está:** `Seccion_A_Ricardo.ipynb`, sección A.2 (texto y unidades), función `detectar_texto_cuantitativo` en `src/eda.py`.
