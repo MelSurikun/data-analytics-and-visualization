@@ -44,3 +44,20 @@ En este archivo registramos los **hallazgos, diferencias con las instrucciones y
   - Si fueran cc, serían motores de 0.06 a 0.33 L, lo cual no es realista para coches.
   - **Conversión a cc:** `cc = in³ × 16.387`.
 - **Dónde está:** `Seccion_B_Melanie.ipynb`, sección B.4 (tabla de correspondencias y comparación de escalas).
+
+  ## 4. Valores imposibles o extremos en CarDekho
+- **Encontrada por:** Ricardo · **Fecha:** 04/10/2026
+- **Afecta a:** incisos 15 y 24, nulos y validación de rangos (Santiago).
+- **Observación:**
+  - `seats` tiene 2 registros con valor 0 (Honda City y Nissan Kicks), lo cual es imposible.
+  - `km_driven` tiene un máximo de 3,800,000 km en un Mahindra XUV500 de 5 años (unos 2,000 km por día) y otro registro con 1,325,000 km.
+  - Por esos extremos, `km_driven` tiene un sesgo muy alto y casi no se correlaciona con el precio (−0.08).
+- **Decisión:** se documenta en el EDA inicial y no se modifica. Se propone tratar `seats = 0` como nulo e imputarlo en el inciso 15, y definir en el inciso 24 un rango válido para `km_driven`. Pendiente de confirmar con Santiago.
+- **Dónde está:** `Seccion_A_Ricardo.ipynb`, sección A.2 (estadísticos) y Figuras A.1 y A.3.
+
+## 5. La clase `Electric` de CarDekho solo contiene Toyota Camry
+- **Encontrada por:** Ricardo · **Fecha:** 04/10/2026
+- **Afecta a:** incisos 11 a 14, filtros categóricos (Magaly), e inciso 26, codificación (Magaly).
+- **Observación:** `fuel_type = Electric` tiene solo 4 registros (0.03 %) y los 4 son Toyota Camry, probablemente la versión híbrida. En las gráficas aparece como el combustible más caro, pero el promedio no es representativo.
+- **Decisión:** se documenta. Se sugiere considerarla al filtrar o codificar, por ejemplo agrupándola con otra clase o excluyéndola, en lugar de tratarla como una categoría con peso propio.
+- **Dónde está:** `Seccion_A_Ricardo.ipynb`, secciones A.2 (clases) y A.3 (Figura A.9).
