@@ -40,6 +40,7 @@ Para maximizar la eficiencia y el trabajo en equipo, las secciones de la prácti
 ├── README.md                           # Documentación general y asignaciones (este archivo)
 ├── observaciones.md                    # Hallazgos y decisiones sobre los datos (bitácora del equipo)
 ├── Prácticas_1_y_2_Analitica.ipynb     # Jupyter Notebook principal con la ejecución
+├── Seccion_A_Ricardo.ipynb             # Sección A (incisos 1–3): EDA inicial
 ├── Seccion_B_Melanie.ipynb             # Sección B (incisos 4–8): homologación de marcas
 ├── data/
 │   ├── raw/                            # (ignorada por git) los datasets se descargan por código
@@ -51,6 +52,7 @@ Para maximizar la eficiencia y el trabajo en equipo, las secciones de la prácti
 │   └── Reporte_Practica_1_y_2.pdf      # Reporte formal impreso/digital
 └── src/
     ├── homologacion.py                 # Funciones de la Sección B
+    ├── eda.py                          # Funciones del EDA (Sección A; se reutilizan en la G)
     ├── requirements.txt                # Dependencias
     └── COMO_EJECUTAR.md                # Guía para crear el entorno y ejecutar
 ```
