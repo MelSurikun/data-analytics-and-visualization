@@ -68,3 +68,42 @@ En este archivo registramos los **hallazgos, diferencias con las instrucciones y
 - **Observación:** `num-of-doors` (`two`, `four`) y `num-of-cylinders` (`two` a `twelve`) son cuantitativas, pero el 100 % de sus valores son números escritos con palabras. `num-of-doors` además tiene 2 nulos.
 - **Decisión:** en el EDA inicial se analizan por clase, sin calcular sus estadísticos. Deben convertirse a número con un diccionario de palabras (`two` → 2, `four` → 4, etc.) en el inciso 22.
 - **Dónde está:** `Seccion_A_Ricardo.ipynb`, sección A.2 (texto y unidades), función `detectar_texto_cuantitativo` en `src/eda.py`.
+
+## 7. Unidades de UCI convertidas a métrico y columnas `MPG_*` renombradas
+- **Encontrada por:** Santiago · **Fecha:** 05/10/2026
+- **Afecta a:** inciso 23 (Santiago) y a quien use el dataset transformado: incisos 25 a 27 y secciones F y G.
+- **Observación:** CarDekho usa unidades métricas (km, km/l, cc) y UCI las de Estados Unidos (mpg, in³, pulgadas y libras). En el dataset limpio convivían las dos.
+- **Decisión:** las unidades de CarDekho se toman como referencia y las dimensiones de UCI se **convierten**:
+  - `MPG_Ciudad` y `MPG_Carretera`: de mpg a km/l (× 0.425144). Se **renombran** a `Millaje_Ciudad` y `Millaje_Carretera`, porque ya no están en millas por galón.
+  - `Tamano_Motor`: de in³ a cc (× 16.387064).
+  - `Altura`, `Ancho`, `Longitud`, `Distancia_Ejes`, `Diametro_Cilindro` y `Carrera_Piston`: de pulgadas a mm (× 25.4).
+  - `Peso_Vacio`: de libras a kg (× 0.453592).
+  - `Caballos_Fuerza` (hp) no se convierte: hp y bhp son la misma unidad.
+  - `Precio` (USD) ya se había eliminado en el inciso 18, así que no hay monedas que unificar.
+  - **Supuesto de la observación 3, comprobado:** la cilindrada calculada con el diámetro, la carrera y el número de cilindros coincide con `Tamano_Motor` (mediana de la razón: 1.00). Sí está en in³.
+- **Dónde está:** `Seccion_E21-24_Santiago.ipynb`, sección E.23 · `data/processed/cardekho_transformado.csv`.
+
+## 8. `Millaje` de los vehículos a gas está en km/kg
+- **Encontrada por:** Santiago · **Fecha:** 05/10/2026
+- **Afecta a:** inciso 23 (Santiago) y a las comparaciones de `Millaje` por combustible en las secciones G y H.
+- **Observación:** según el diccionario de la Sección A, en los vehículos a gas (CNG y LPG) el rendimiento se publica en km/kg y no en km/l. Son 343 registros (2.25 %) del dataset limpio.
+- **Decisión:** se **documenta y no se convierte**. Pasar de kilogramos a litros depende de la densidad del combustible, que no está en los datos. Al comparar `Millaje` conviene hacerlo por tipo de combustible.
+- **Dónde está:** `Seccion_E21-24_Santiago.ipynb`, sección E.23.
+
+## 9. Redondeo: valores que terminan en .5 y registros que quedan idénticos
+- **Encontrada por:** Santiago · **Fecha:** 05/10/2026
+- **Afecta a:** inciso 24 (Santiago), inciso 27 y Sección G (comprobación de duplicados y estadísticos).
+- **Observación:**
+  - `Millaje` tiene 715 valores que terminan exactamente en .5 y `Potencia_Máxima` tiene 1,092 (88.5 aparece 581 veces). Esos valores están a la misma distancia de dos enteros.
+  - Después de redondear quedan 6 registros idénticos a otro. Antes solo se distinguían por los decimales de `Potencia_Máxima` (por ejemplo, 68.00 y 68.05).
+- **Decisión:**
+  - Se usa `round()` de pandas, que en esos casos elige el entero par (88.5 queda en 88 y 103.5 en 104). Así la media casi no cambia (`Potencia_Máxima`: de 100.608 a 100.611); la mediana pasa de 88.5 a 88.
+  - Los 6 registros **no se eliminan**: eran distintos antes de redondear y la eliminación de duplicados corresponde al inciso 17. Si se vuelven a contar duplicados sobre el dataset transformado, `df.duplicated().sum()` da 6 por esta razón.
+- **Dónde está:** `Seccion_E21-24_Santiago.ipynb`, sección E.24 y "Comprobación y exportación".
+
+## 10. `Num_Puertas` y `Num_Cilindros` llegan como números (sobre la observación 6)
+- **Encontrada por:** Santiago · **Fecha:** 05/10/2026
+- **Afecta a:** incisos 21 y 22 (Santiago) y Sección A (Ricardo).
+- **Observación:** con `hm.cargar_uci()`, `num-of-doors` llega como `float64` (2.0 y 4.0) y `num-of-cylinders` como `int64`. Así se promediaron por marca en la integración, y en el dataset limpio `Num_Puertas` y `Num_Cilindros` son numéricas.
+- **Decisión:** en el inciso 22 no hay texto que convertir, por lo que el diccionario de palabras propuesto en la observación 6 no se aplica. Conviene confirmar con qué versión de UCI se generaron las Tablas A.11 a A.13, que las describen como texto.
+- **Dónde está:** `Seccion_B_Melanie.ipynb`, sección B.4 (tipos de dato) · `Seccion_B9-10_C_Magaly.ipynb`, sección B.9.
