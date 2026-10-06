@@ -107,3 +107,36 @@ En este archivo registramos los **hallazgos, diferencias con las instrucciones y
 - **Observación:** con `hm.cargar_uci()`, `num-of-doors` llega como `float64` (2.0 y 4.0) y `num-of-cylinders` como `int64`. Así se promediaron por marca en la integración, y en el dataset limpio `Num_Puertas` y `Num_Cilindros` son numéricas.
 - **Decisión:** en el inciso 22 no hay texto que convertir, por lo que el diccionario de palabras propuesto en la observación 6 no se aplica. Conviene confirmar con qué versión de UCI se generaron las Tablas A.11 a A.13, que las describen como texto.
 - **Dónde está:** `Seccion_B_Melanie.ipynb`, sección B.4 (tipos de dato) · `Seccion_B9-10_C_Magaly.ipynb`, sección B.9.
+
+## 11. Incisos 25 a 27 de la Sección E: transformación del precio y codificación
+- **Encontrada por:** Melanie · **Fecha:** 06/10/2026
+- **Afecta a:** incisos 25 a 27 (Melanie) y Sección G (Ricardo).
+- **Observación:** el notebook de Santiago cubre los incisos 21 a 24. Los incisos 25 a 27 se hicieron en un notebook aparte.
+- **Decisión:**
+  - **Precio (25):** se conserva `Precio_Venta` (INR) y se agregan `Precio_Venta_Lakhs` (÷ 100,000) y `Precio_Venta_Log` (ln). El logaritmo baja la asimetría de 10.11 a 0.56.
+  - **Codificación (26):**
+    - binaria para `Transmisión` (`Transmision_Automatica`);
+    - one-hot para `Combustible`, `Tipo_Vendedor` y las categóricas de UCI;
+    - frecuencia para `Marca_Homologada` y `Modelo` (`*_Frec`).
+  - Las columnas de texto originales **se conservan** para que la Sección G pueda graficarlas. El dataset pasa de 36 a 70 dimensiones.
+  - Si en la G se calcula la correlación o el *pairplot* de "todas las cuantitativas", conviene excluir las columnas one-hot y las `*_Frec`, porque son códigos y no medidas.
+- **Dónde está:** `Seccion_E25-27_Melanie.ipynb` · `src/caracteristicas.py` · `data/processed/cardekho_codificado.csv`.
+
+## 12. No hay registros con `Kilómetros = 0`
+- **Encontrada por:** Melanie · **Fecha:** 06/10/2026
+- **Afecta a:** inciso 29 (Melanie).
+- **Observación:** el mínimo de `Kilómetros` es 100 (un Hyundai Santro de 2020), así que no hay divisiones entre cero. Ese registro da el cuarto `Precio_por_Km` más alto (4,750 INR/km).
+- **Decisión:** la regla queda programada de todos modos: si `Kilómetros = 0`, `Precio_por_Km` queda en NaN, y se demuestra con valores de prueba. No se usa infinito, porque rompe los estadísticos, ni 0, porque es un valor falso.
+- **Dónde está:** `Seccion_F_Melanie.ipynb`, sección F.29 · `crear_precio_por_km` en `src/caracteristicas.py`.
+
+## 13. Año de referencia de `Antigüedad` y umbral de `Vehiculo_Antiguo`
+- **Encontrada por:** Melanie · **Fecha:** 06/10/2026
+- **Afecta a:** incisos 28 y 30 (Melanie) y Sección G (Ricardo).
+- **Observación:** el PDF pide fijar explícitamente el año de referencia y justificar el umbral.
+- **Decisión:**
+  - **Año de referencia: 2021** (`ANIO_REFERENCIA = ANIO_RECOLECCION`). Es el año del dataset y el mismo con el que se derivó `Año` (observación 1), así que `Antigüedad` coincide con la edad del auto al publicarse el anuncio.
+  - **Umbral: 10 años.**
+    - Es el percentil 90 de la antigüedad: 2,057 autos (13.49 %) quedan como antiguos.
+    - En Delhi-NCR no pueden circular autos diésel de más de 10 años.
+    - El precio mediano baja de 600,000 a 275,000 INR entre los dos grupos.
+- **Dónde está:** `Seccion_F_Melanie.ipynb`, secciones F.28 y F.30 · constantes en `src/caracteristicas.py`.

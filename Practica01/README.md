@@ -22,42 +22,54 @@ Este repositorio contiene el desarrollo colaborativo y el reporte de la **Práct
 
 ## Distribución del Trabajo y Asignación por Persona
 
-Para maximizar la eficiencia y el trabajo en equipo, las secciones de la práctica fueron divididas según el siguiente esquema de trabajo:
+Las secciones se dividieron así (cada notebook lleva el nombre de su responsable):
 
-| Persona | Secciones / Incisos Asignados | Resumen de Responsabilidades y Entregables |
-| :--- | :--- | :--- |
-| **Ricardo** | **A (1, 2, 3) + G (32, 33) + E (25)** | **EDA Inicial y Final + Transformación de Precio:**<br>• Carga, inspección general (top/bottom 10) y dimensiones cuantitativas/cualitativas.<br>• Métricas estadísticas (media, mediana, moda, std, IQR) y gráficos iniciales (*pairplot*, mapas de calor, distribuciones y comparativas contra `Precio_Venta`).<br>• Transformación adecuada de la variable `Precio_Venta` (Inciso 25).<br>• Reutilización de pipeline para el EDA Post-Procesamiento (Sección G) y análisis de variables generadas. |
-| **Melanie** | **B (4 - 8) + F (28 - 31)** | **Homologación Pre-Integración e Ingeniería de Características:**<br>• Análisis de equivalencias e incompatibilidades entre `name` (CarDekho) y `make` (UCI).<br>• Renombrado a español y extracción de `Marca`.<br>• Creación de `Marca_Homologada` y construcción de `tabla_homologacion_marcas` con justificaciones.<br>• Creación y validación de variables numéricas/categóricas: `Antigüedad`, `Precio_por_Km` y `Vehiculo_Antiguo`. |
-| **Magaly** | **B (9, 10) + C (11 - 14) + D (17, 18, 20) + E (26)** | **Integración, Filtrados, Deduplicación y Codificación:**<br>• Ejecución del *Left Join* tomando CarDekho como base y métricas del cruce.<br>• Aplicación de filtros simples (4+), combinados AND/OR/NOT (3+) y categóricos (3+), registrando métricas antes/después.<br>• Eliminación de duplicados post-integración, depuración de columnas innecesarias/redundantes y comprobaciones (Inciso 20).<br>• Codificación de variables categóricas (*One-Hot / Label Encoding*). |
-| **Santiago** | **D (15, 16, 19) + E (21 - 24, 27)** | **Tratamiento de Nulos, Homologación Texto y Limpieza de Unidades:**<br>• Estrategia e imputación/eliminación de valores nulos (cuantitativos y cualitativos).<br>• Homologación de texto y categorías inconsistentes.<br>• Extracción de caracteres/unidades en `Millaje`, `Motor`, `Potencia_Máxima` y `Torque`.<br>• Conversión a tipos numéricos, unificación de unidades entre fuentes, redondeos y validación de rangos/nulos. |
+| Persona | Secciones / Incisos | Notebook | Resumen |
+| :--- | :--- | :--- | :--- |
+| **Ricardo** | **A (1 – 3)** | `Seccion_A_Ricardo.ipynb` | EDA inicial: descripción de dimensiones, top/bottom 10, nulos, clases, estadísticos y gráficas (distribuciones, *pairplot*, mapas de calor, categóricas vs. `Precio_Venta`). |
+| **Melanie** | **B (4 – 8)** | `Seccion_B_Melanie.ipynb` | Correspondencia entre dimensiones, incompatibilidades `name`/`make`, renombrado a español, `Marca`, `Marca_Homologada` y `tabla_homologacion_marcas`. |
+| **Magaly** | **B (9, 10) + C (11 – 14)** | `Seccion_B9-10_C_Magaly.ipynb` | *Left join* con CarDekho como base, métricas de la integración y filtros simples, combinados (AND/OR/NOT) y categóricos. |
+| **Magaly** | **D (15 – 20)** | `Seccion_D_Magaly.ipynb` | Nulos, observaciones eliminadas, duplicados, dimensiones innecesarias, homologación de categorías y comprobación de la limpieza. |
+| **Santiago** | **E (21 – 24)** | `Seccion_E21-24_Santiago.ipynb` | Caracteres y unidades de `Millaje`, `Motor` y `Potencia_Máxima`, conversión a numérico, unificación de unidades entre fuentes y redondeo. |
+| **Melanie** | **E (25 – 27)** | `Seccion_E25-27_Melanie.ipynb` | Transformación de `Precio_Venta` (lakhs y logaritmo), codificación de categóricas (binaria, one-hot y frecuencia) y comprobación de la Sección E. |
+| **Melanie** | **F (28 – 31)** | `Seccion_F_Melanie.ipynb` | Ingeniería de características: `Antigüedad`, `Precio_por_Km` y `Vehiculo_Antiguo`, con fórmula, procedimiento y ejemplos comprobados. |
+| **Ricardo** | **G (32, 33)** | `Seccion_G_Ricardo.ipynb` | EDA final sobre `dataset_final_procesado.csv`, reutilizando las funciones de `src/eda.py`. |
 
 ---
 
 ## Estructura del Repositorio
 
 ```text
-.
+Practica01/
 ├── README.md                           # Documentación general y asignaciones (este archivo)
 ├── observaciones.md                    # Hallazgos y decisiones sobre los datos (bitácora del equipo)
-├── Prácticas_1_y_2_Analitica.ipynb     # Jupyter Notebook principal con la ejecución
-├── Seccion_A_Ricardo.ipynb             # Sección A (incisos 1–3): EDA inicial
-├── Seccion_B_Melanie.ipynb             # Sección B (incisos 4–8): homologación de marcas
+├── Seccion_A_Ricardo.ipynb             # Sección A (1–3): EDA inicial
+├── Seccion_B_Melanie.ipynb             # Sección B (4–8): homologación de marcas
+├── Seccion_B9-10_C_Magaly.ipynb        # Sección B (9–10) y C (11–14): integración y filtrado
+├── Seccion_D_Magaly.ipynb              # Sección D (15–20): limpieza
+├── Seccion_E21-24_Santiago.ipynb       # Sección E (21–24): unidades, tipos y redondeo
+├── Seccion_E25-27_Melanie.ipynb        # Sección E (25–27): precio, codificación y comprobación
+├── Seccion_F_Melanie.ipynb             # Sección F (28–31): ingeniería de características
 ├── data/
-│   ├── raw/                            # (ignorada por git) los datasets se descargan por código
-│   └── processed/
-│       ├── tabla_homologacion_marcas.csv # Tabla de correspondencia de marcas (inciso 8)
-│       └── dataset_final_procesado.csv # Dataset resultante tras el pipeline completo
+│   └── processed/                      # Resultado de cada etapa (los datos crudos se descargan por código)
+│       ├── tabla_homologacion_marcas.csv # Inciso 8
+│       ├── cardekho_integrado.csv      # Sección B (9–10)
+│       ├── cardekho_limpio.csv         # Sección D
+│       ├── cardekho_transformado.csv   # Sección E (21–24)
+│       ├── cardekho_codificado.csv     # Sección E (25–27)
+│       └── dataset_final_procesado.csv # Sección F: insumo de la Sección G
 ├── figuras/                            # Figuras generadas por los notebooks para el reporte
-├── docs/
-│   └── Reporte_Practica_1_y_2.pdf      # Reporte formal impreso/digital
 └── src/
     ├── homologacion.py                 # Funciones de la Sección B
     ├── eda.py                          # Funciones del EDA (Sección A; se reutilizan en la G)
+    ├── caracteristicas.py              # Funciones de las Secciones E (25–26) y F
     ├── requirements.txt                # Dependencias
-    └── COMO_EJECUTAR.md                # Guía para crear el entorno y ejecutar
+    └── COMO_EJECUTAR_ParteMelanie.md   # Guía para crear el entorno y ejecutar
 ```
 
-> Los datasets **no** se suben al repositorio: CarDekho se descarga con `kagglehub` y UCI Automobile con `ucimlrepo` (ver `src/COMO_EJECUTAR.md`).
+Orden de ejecución: A → B → B9-10/C → D → E21-24 → E25-27 → F → G (cada notebook lee el CSV que deja el anterior).
+
+> Los datasets **no** se suben al repositorio: CarDekho se descarga con `kagglehub` y UCI Automobile con `ucimlrepo` (ver `src/COMO_EJECUTAR_ParteMelanie.md`).
 
 ---
 
@@ -112,4 +124,4 @@ Para cumplir cabalmente con la rúbrica institucional publicada por el profesor 
 *(Esta sección se completa al finalizar la ejecución global del proyecto)*
 * **Registros finales retenidos:** `X,XXX` de `Y,YYY` iniciales.
 * **Porcentaje de correspondencia en integración de marcas:** `XX.X%`
-* **Nuevas características construidas:** `Antigüedad`, `Precio_por_Km`, `Vehiculo_Antiguo`.
+* **Nuevas características construidas:** `Antigüedad` (2021 − Año, de 0 a 29 años), `Precio_por_Km` (mediana de 11.82 INR/km) y `Vehiculo_Antiguo` (umbral de 10 años: 2,057 autos, 13.49 %).
