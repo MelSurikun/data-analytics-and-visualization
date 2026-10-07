@@ -33,7 +33,8 @@ Las secciones se dividieron así (cada notebook lleva el nombre de su responsabl
 | **Santiago** | **E (21 – 24)** | `Seccion_E21-24_Santiago.ipynb` | Caracteres y unidades de `Millaje`, `Motor` y `Potencia_Máxima`, conversión a numérico, unificación de unidades entre fuentes y redondeo. |
 | **Melanie** | **E (25 – 27)** | `Seccion_E25-27_Melanie.ipynb` | Transformación de `Precio_Venta` (lakhs y logaritmo), codificación de categóricas (binaria, one-hot y frecuencia) y comprobación de la Sección E. |
 | **Melanie** | **F (28 – 31)** | `Seccion_F_Melanie.ipynb` | Ingeniería de características: `Antigüedad`, `Precio_por_Km` y `Vehiculo_Antiguo`, con fórmula, procedimiento y ejemplos comprobados. |
-| **Ricardo** | **G (32, 33)** | `Seccion_G_Ricardo.ipynb` | EDA final sobre `dataset_final_procesado.csv`, reutilizando las funciones de `src/eda.py`. |
+| **Ricardo** | **G (32, 33)** | `Seccion_G_H_Ricardo.ipynb` | EDA final sobre `dataset_final_procesado.csv`, reutilizando las funciones de `src/eda.py`. |
+| **Ricardo** | **H (34)** | `Seccion_G_H_Ricardo.ipynb` | Comparación del EDA inicial contra el final (observaciones, calidad, estadísticos, clases, forma del precio y correlaciones) y conclusiones. |
 
 ---
 
@@ -50,6 +51,7 @@ Practica01/
 ├── Seccion_E21-24_Santiago.ipynb       # Sección E (21–24): unidades, tipos y redondeo
 ├── Seccion_E25-27_Melanie.ipynb        # Sección E (25–27): precio, codificación y comprobación
 ├── Seccion_F_Melanie.ipynb             # Sección F (28–31): ingeniería de características
+├── Seccion_G_H_Ricardo.ipynb           # Secciones G (32–33) y H (34): EDA final y conclusiones
 ├── data/
 │   └── processed/                      # Resultado de cada etapa (los datos crudos se descargan por código)
 │       ├── tabla_homologacion_marcas.csv # Inciso 8
@@ -58,16 +60,16 @@ Practica01/
 │       ├── cardekho_transformado.csv   # Sección E (21–24)
 │       ├── cardekho_codificado.csv     # Sección E (25–27)
 │       └── dataset_final_procesado.csv # Sección F: insumo de la Sección G
-├── figuras/                            # Figuras generadas por los notebooks para el reporte
+├── figuras/                            # Figuras del reporte (figura_A*, B*, E*, F*, G*, H*)
 └── src/
     ├── homologacion.py                 # Funciones de la Sección B
-    ├── eda.py                          # Funciones del EDA (Sección A; se reutilizan en la G)
+    ├── eda.py                          # Funciones del EDA (Sección A; se reutilizan en G y H)
     ├── caracteristicas.py              # Funciones de las Secciones E (25–26) y F
     ├── requirements.txt                # Dependencias
     └── COMO_EJECUTAR_ParteMelanie.md   # Guía para crear el entorno y ejecutar
 ```
 
-Orden de ejecución: A → B → B9-10/C → D → E21-24 → E25-27 → F → G (cada notebook lee el CSV que deja el anterior).
+Orden de ejecución: A → B → B9-10/C → D → E21-24 → E25-27 → F → G/H (cada notebook lee el CSV que deja el anterior). Los notebooks se abren desde la carpeta `Practica01/`, porque usan las rutas relativas `src/`, `data/processed/` y `figuras/`.
 
 > Los datasets **no** se suben al repositorio: CarDekho se descarga con `kagglehub` y UCI Automobile con `ucimlrepo` (ver `src/COMO_EJECUTAR_ParteMelanie.md`).
 
@@ -79,6 +81,7 @@ Orden de ejecución: A → B → B9-10/C → D → E21-24 → E25-27 → F → G
 * **Entorno:** Jupyter Notebook / JupyterLab
 * **Procesamiento de Datos:** `pandas`, `numpy`
 * **Visualización:** `matplotlib`, `seaborn`
+* **Descarga de datos:** `kagglehub` (CarDekho) y `ucimlrepo` (UCI Automobile)
 
 ---
 
@@ -97,10 +100,12 @@ Orden de ejecución: A → B → B9-10/C → D → E21-24 → E25-27 → F → G
    # venv\Scripts\activate   # En Windows
    ```
 
-3. **Instalar dependencias:**
+3. **Instalar dependencias** (desde la carpeta `Practica01/`):
    ```bash
-   pip install pandas numpy matplotlib seaborn jupyter
+   pip install -r src/requirements.txt
    ```
+
+4. **Ejecutar los notebooks** en el orden indicado arriba. La primera ejecución requiere internet para descargar los datasets.
 
 
 ---
@@ -121,7 +126,10 @@ Para cumplir cabalmente con la rúbrica institucional publicada por el profesor 
 
 ## Resumen de Resultados Finales
 
-*(Esta sección se completa al finalizar la ejecución global del proyecto)*
-* **Registros finales retenidos:** `X,XXX` de `Y,YYY` iniciales.
-* **Porcentaje de correspondencia en integración de marcas:** `XX.X%`
-* **Nuevas características construidas:** `Antigüedad` (2021 − Año, de 0 a 29 años), `Precio_por_Km` (mediana de 11.82 INR/km) y `Vehiculo_Antiguo` (umbral de 10 años: 2,057 autos, 13.49 %).
+* **Registros finales retenidos:** 15,244 de 15,411 iniciales (98.9 %). Solo se eliminaron los 167 anuncios duplicados.
+* **Dimensiones:** de 14 a 73 (42 tras la integración, 36 tras la limpieza, 70 tras la codificación y 73 con las características nuevas). 32 de ellas son columnas codificadas (binarias, one-hot y de frecuencia).
+* **Correspondencia en la integración de marcas:** 12 de 30 fabricantes (40.0 %), que abarcan el 29.4 % de los registros de CarDekho. La integración es un *left join* por `Marca_Homologada` con UCI resumido a un registro por fabricante (0 duplicados).
+* **Nulos:** la integración generó 273,793 nulos en 11,433 registros; se trataron en la Sección D (mediana y "Desconocido") y el dataset final no tiene nulos.
+* **Transformación del precio:** `Precio_Venta_Log` reduce la asimetría de 10.11 a 0.56 y eleva la correlación de `Antigüedad` con el precio de −0.24 a −0.49.
+* **Nuevas características construidas:** `Antigüedad` (2021 − Año, de 0 a 29 años), `Precio_por_Km` (mediana de 11.82 INR/km) y `Vehiculo_Antiguo` (umbral de 10 años: 2,057 autos, 13.49 %; precio mediano de 275,000 INR contra 600,000 de los no antiguos).
+* **Pendientes documentados:** 2 registros con `Asientos = 0`, un registro con 3,800,000 km, variantes de escritura en `Modelo` (RediGO / redi-GO) y 6 registros idénticos que dejó el redondeo del inciso 24.
