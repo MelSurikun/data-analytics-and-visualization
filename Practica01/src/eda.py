@@ -1,7 +1,7 @@
 #  I.   Nombre completo del estudiante : Ricardo González Manzano
 #  II.  Grupo                          : 5AV1
 #  III. Carrera                        : Licenciatura en Ciencia de Datos
-#  IV.  Fecha de última modificación   : 04/10/2026
+#  IV.  Fecha de última modificación   : 07/10/2026
 # -----------------------------------------------------------------------------
 #  V.   DESCRIPCIÓN DE LA FUNCIONALIDAD
 #  Módulo con las funciones del Análisis Exploratorio de Datos (EDA). Solo
@@ -9,11 +9,15 @@
 #    - Seccion_A_Ricardo.ipynb : EDA inicial (incisos 1, 2 y 3).
 #    - Sección G               : EDA final sobre los datos ya procesados
 #                                (incisos 32 y 33), con las mismas funciones.
+#    - Sección H               : comparación del EDA inicial contra el final
+#                                (inciso 34).
 #  Las funciones cubren: diccionario de dimensiones, nulos, dimensiones
 #  cuantitativas guardadas como texto o con unidades, inconsistencias en
 #  dimensiones cualitativas, clases y frecuencias, estadística descriptiva y
 #  gráficas (distribuciones, pairplot, mapa de calor y categorías contra el
-#  precio). Ninguna función modifica el DataFrame que recibe. Las gráficas se
+#  precio). Para G y H agrega el análisis gráfico de las dimensiones nuevas
+#  y las comparaciones antes/después (estadísticos, clases, etapas y
+#  correlaciones). Ninguna función modifica el DataFrame que recibe. Las gráficas se
 #  guardan como PNG en la carpeta indicada por CARPETA_FIGURAS.
 # =============================================================================
 
@@ -517,5 +521,201 @@ def graficar_categorias_vs_precio(df, columnas, precio, unidad_precio, titulo, a
         eje.yaxis.set_major_formatter(mticker.FuncFormatter(formato_compacto))
     fig.suptitle(titulo, fontsize=14, fontweight="bold")
     fig.tight_layout(rect=(0, 0, 1, 0.985))  # Deja espacio al título general
+    guardar_figura(fig, archivo)
+    return fig
+
+
+# ---------------------------------------------------------------------------
+# Inciso 33: análisis gráfico de las dimensiones nuevas (Sección G)
+# ---------------------------------------------------------------------------
+def graficar_nuevas_caracteristicas(df, titulo, archivo, umbral=10):
+    """Análisis gráfico de Antigüedad, Precio_por_Km y Vehiculo_Antiguo.
+
+    Cuatro paneles:
+      (a) distribución de Antigüedad, con las barras de los vehículos antiguos
+          (Antigüedad >= umbral) en otro color y una línea en el umbral;
+      (b) Precio_Venta mediano por cada año de Antigüedad;
+      (c) distribución de Precio_por_Km en escala logarítmica, con su mediana;
+      (d) caja de Precio_Venta (escala log) para cada grupo de Vehiculo_Antiguo.
+    Parámetros:
+        df (DataFrame): dataset con Antigüedad, Precio_por_Km, Vehiculo_Antiguo
+            y Precio_Venta.
+        titulo (str), archivo (str): título general y nombre del PNG.
+        umbral (int): años a partir de los cuales un vehículo es antiguo.
+    Regresa:
+        Figure de matplotlib.
+    """
+    fig, ejes = plt.subplots(2, 2, figsize=(15, 9.5))
+    (eje_a, eje_b), (eje_c, eje_d) = ejes
+
+    # (a) Distribución de Antigüedad: una barra por año.
+    conteo = df["Antigüedad"].value_counts().sort_index()
+    colores = [COLOR_PRECIO if anios >= umbral else COLOR_PRINCIPAL for anios in conteo.index]
+    eje_a.bar(conteo.index, conteo.values, color=colores, width=0.8)
+    eje_a.axvline(umbral - 0.5, color=COLOR_TEXTO, ls="--", lw=1.2)
+    eje_a.text(umbral - 0.4, conteo.max() * 0.92, f"Umbral: {umbral} años",
+               fontsize=9, color=COLOR_TEXTO)
+    eje_a.set_title("(a) Distribución de Antigüedad")
+    eje_a.set_xlabel("años")
+    eje_a.set_ylabel("Vehículos")
+
+    # (b) Precio mediano por año de antigüedad.
+    mediana = df.groupby("Antigüedad")["Precio_Venta"].median()
+    eje_b.plot(mediana.index, mediana.values, marker="o", ms=4, lw=2, color=COLOR_PRINCIPAL)
+    eje_b.set_title("(b) Precio_Venta mediano por Antigüedad")
+    eje_b.set_xlabel("años")
+    eje_b.set_ylabel("Precio_Venta mediano (INR)")
+    eje_b.yaxis.set_major_formatter(mticker.FuncFormatter(formato_compacto))
+
+    # (c) Precio_por_Km en escala log: con escala lineal todo quedaría en la primera barra.
+    ppk = df["Precio_por_Km"].dropna()
+    ppk = ppk[ppk > 0]  # El logaritmo solo existe para valores positivos
+    bins = np.logspace(np.log10(ppk.min()), np.log10(ppk.max()), 50)
+    eje_c.hist(ppk, bins=bins, color=COLOR_PRINCIPAL, edgecolor="white", linewidth=0.4)
+    eje_c.set_xscale("log")
+    eje_c.axvline(ppk.median(), color=COLOR_TEXTO, ls=":", lw=1.6,
+                  label=f"Mediana: {ppk.median():.2f}")
+    eje_c.legend(fontsize=8)
+    eje_c.set_title("(c) Distribución de Precio_por_Km (escala log)")
+    eje_c.set_xlabel("INR por km")
+    eje_c.set_ylabel("Vehículos")
+
+    # (d) Precio por grupo de Vehiculo_Antiguo.
+    grupos = [df.loc[df["Vehiculo_Antiguo"] == g, "Precio_Venta"].dropna() for g in (0, 1)]
+    cajas = eje_d.boxplot(grupos, widths=0.5, patch_artist=True,
+                          medianprops={"color": COLOR_TEXTO},
+                          flierprops={"marker": "o", "markersize": 2, "alpha": 0.3})
+    for caja, color in zip(cajas["boxes"], (COLOR_PRINCIPAL, COLOR_PRECIO)):
+        caja.set_facecolor(color)
+        caja.set_alpha(0.75)
+    eje_d.set_xticks([1, 2])
+    eje_d.set_xticklabels([f"No antiguo (0)\nn = {len(grupos[0]):,}",
+                           f"Antiguo (1)\nn = {len(grupos[1]):,}"])
+    eje_d.set_yscale("log")
+    eje_d.yaxis.set_major_formatter(mticker.FuncFormatter(formato_compacto))
+    eje_d.set_title("(d) Precio_Venta según Vehiculo_Antiguo")
+    eje_d.set_ylabel("Precio_Venta (INR, escala log)")
+
+    fig.suptitle(titulo, fontsize=14, fontweight="bold")
+    fig.tight_layout(rect=(0, 0, 1, 0.97))
+    guardar_figura(fig, archivo)
+    return fig
+
+
+# ---------------------------------------------------------------------------
+# Inciso 34: comparación del EDA inicial contra el final (Sección H)
+# ---------------------------------------------------------------------------
+MEDIDAS_COMPARACION = ["Observaciones", "Media", "Mediana", "Desv. estándar", "Mínimo", "Máximo"]
+
+
+def comparar_estadisticos(est_antes, est_despues, pares, medidas=None):
+    """Compara medidas descriptivas de las mismas dimensiones antes y después.
+
+    Parámetros:
+        est_antes, est_despues (DataFrame): tablas de estadisticos_cuantitativos.
+        pares (list): tuplas (dimensión antes, dimensión después). Si los nombres
+            difieren, la fila se rotula "antes → después".
+        medidas (list): medidas a comparar (por omisión MEDIDAS_COMPARACION).
+    Regresa:
+        DataFrame con índice (Dimensión, Medida) y columnas Antes, Después,
+        Diferencia y Cambio %. El cambio % queda NaN cuando el valor de antes
+        es 0, porque no se puede dividir entre cero.
+    """
+    medidas = MEDIDAS_COMPARACION if medidas is None else medidas
+    filas = []
+    for antes, despues in pares:
+        etiqueta = antes if antes == despues else f"{antes} → {despues}"
+        for medida in medidas:
+            v_antes = float(est_antes.loc[antes, medida])
+            v_despues = float(est_despues.loc[despues, medida])
+            filas.append({"Dimensión": etiqueta, "Medida": medida,
+                          "Antes": v_antes, "Después": v_despues,
+                          "Diferencia": v_despues - v_antes,
+                          "Cambio %": (v_despues - v_antes) / abs(v_antes) * 100
+                                      if v_antes != 0 else np.nan})
+    return pd.DataFrame(filas).set_index(["Dimensión", "Medida"])
+
+
+def comparar_clases(antes, despues):
+    """Observaciones y porcentaje de cada clase antes y después.
+
+    Parámetros:
+        antes, despues (Series): la misma dimensión cualitativa en dos momentos.
+            El nombre de la tabla se toma de "despues".
+    Regresa:
+        DataFrame con Obs. antes, % antes, Obs. después, % después y
+        Diferencia (pp), en puntos porcentuales. Incluye las clases que solo
+        existen en uno de los dos momentos (con 0 en el otro) y se ordena de
+        mayor a menor por observaciones después y luego antes.
+    """
+    conteo_antes = antes.value_counts()
+    conteo_despues = despues.value_counts()
+    tabla = pd.DataFrame({"Obs. antes": conteo_antes,
+                          "Obs. después": conteo_despues}).fillna(0).astype("int64")
+    tabla["% antes"] = tabla["Obs. antes"] / len(antes) * 100
+    tabla["% después"] = tabla["Obs. después"] / len(despues) * 100
+    tabla["Diferencia (pp)"] = tabla["% después"] - tabla["% antes"]
+    tabla = tabla.sort_values(["Obs. después", "Obs. antes"], ascending=False)
+    tabla = tabla[["Obs. antes", "% antes", "Obs. después", "% después", "Diferencia (pp)"]]
+    return tabla.rename_axis(despues.name)
+
+
+def graficar_etapas(tabla, titulo, archivo):
+    """Barras con las observaciones y las dimensiones del dataset en cada etapa.
+
+    Parámetros:
+        tabla (DataFrame): índice = etapa; columnas "Observaciones" y "Dimensiones".
+        titulo (str), archivo (str): título general y nombre del PNG.
+    Regresa:
+        Figure de matplotlib.
+    """
+    fig, ejes = plt.subplots(1, 2, figsize=(15, 4.8))
+    for eje, col, color in zip(ejes, ["Observaciones", "Dimensiones"], [COLOR_PRINCIPAL, COLOR_PRECIO]):
+        valores = tabla[col]
+        x = range(len(valores))
+        eje.bar(x, valores.values, color=color, width=0.65)
+        for xi, v in zip(x, valores.values):
+            eje.text(xi, v, f"{v:,}", ha="center", va="bottom", fontsize=8, color=COLOR_TEXTO)
+        eje.set_xticks(list(x))
+        eje.set_xticklabels(valores.index, rotation=25, ha="right")
+        eje.set_title(col)
+        eje.margins(y=0.12)
+        eje.yaxis.set_major_formatter(mticker.FuncFormatter(formato_compacto))
+    fig.suptitle(titulo, fontsize=13, fontweight="bold")
+    fig.tight_layout(rect=(0, 0, 1, 0.95))
+    guardar_figura(fig, archivo)
+    return fig
+
+
+def graficar_comparacion_correlaciones(tabla, titulo, archivo):
+    """Barras horizontales con la correlación de cada dimensión con el precio.
+
+    Una barra por columna de la tabla (p. ej. inicial, final con Precio_Venta
+    y final con su logaritmo). Las celdas NaN (dimensiones que no existían al
+    inicio) no se dibujan.
+    Parámetros:
+        tabla (DataFrame): índice = dimensión; columnas = momentos a comparar.
+        titulo (str), archivo (str): título y nombre del PNG.
+    Regresa:
+        Figure de matplotlib.
+    """
+    colores = [COLOR_PRINCIPAL, COLOR_PRECIO, "#1fb07f", COLOR_TEXTO]
+    n_filas, n_cols = tabla.shape
+    alto = 0.8 / n_cols  # Grosor de cada barra dentro del grupo
+    fig, eje = plt.subplots(figsize=(11, 0.55 * n_filas * 1.2 + 1))
+    y_base = np.arange(n_filas)
+    for i, col in enumerate(tabla.columns):
+        valores = tabla[col].fillna(0)  # NaN -> barra de largo 0 (no se ve)
+        eje.barh(y_base - 0.4 + alto * (i + 0.5), valores.values, height=alto,
+                 color=colores[i % len(colores)], label=col)
+    eje.set_yticks(y_base)
+    eje.set_yticklabels(tabla.index)
+    eje.invert_yaxis()  # Primera fila de la tabla arriba
+    eje.axvline(0, color=COLOR_TEXTO, lw=0.8)
+    eje.set_xlim(-1, 1)
+    eje.set_xlabel("Coeficiente de correlación de Pearson")
+    eje.legend(fontsize=8, loc="lower right")
+    eje.set_title(titulo, fontsize=13, fontweight="bold")
+    fig.tight_layout()
     guardar_figura(fig, archivo)
     return fig
