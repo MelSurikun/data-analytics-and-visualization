@@ -140,3 +140,16 @@ En este archivo registramos los **hallazgos, diferencias con las instrucciones y
     - En Delhi-NCR no pueden circular autos diésel de más de 10 años.
     - El precio mediano baja de 600,000 a 275,000 INR entre los dos grupos.
 - **Dónde está:** `Seccion_F_Melanie.ipynb`, secciones F.28 y F.30 · constantes en `src/caracteristicas.py`.
+
+## 14. `Num_Puertas` y `Num_Cilindros` tienen decimales
+- **Encontrada por:** Ricardo · **Justificación:** Magaly · **Fecha:** 07/10/2026
+- **Afecta a:** incisos 9, 10 y 15 (Magaly), incisos 21 a 24 (Santiago) y secciones G y H (gráficas y correlaciones).
+- **Observación:** en el dataset limpio aparecen valores como 3.4 puertas o 4.08 cilindros. No es un error de captura; los decimales vienen de dos pasos:
+  - **Integración (B.9–B.10):** UCI no tiene el modelo del auto, así que el join es **por fabricante**. Antes de unir, UCI se resume a una fila por marca con el **promedio** de las cuantitativas. Cada auto de CarDekho recibe el perfil promedio de su marca, no los datos de su modelo.
+  - **Imputación (inciso 15):** el 70.64 % de los registros no tiene marca en UCI. Sus nulos se imputaron con la **mediana** de la columna (`Num_Puertas` = 3.12, `Num_Cilindros` = 4.08). Como esa mediana se calcula sobre promedios por marca, también sale con decimales.
+- **Interpretación:** en los registros con datos de UCI, el valor describe la composición del fabricante. Por ejemplo, 3.4 puertas significa que la marca tiene modelos de 2 y de 4 puertas. Si *x* es la proporción de modelos de 4 puertas, 2(1 − *x*) + 4*x* = 3.4, y resulta *x* = 0.7, es decir, alrededor del 70 % de sus modelos tiene 4 puertas. La moda daría un entero, pero perdería esa información. En los registros **sin** datos de UCI (`Tiene_Datos_UCI = 0`), el 3.12 o 4.08 no describe a la marca; es solo un valor de relleno.
+- **Decisión:** se **conservan los decimales**, porque son coherentes con una integración por fabricante. Al usarlas hay que tomar en cuenta lo siguiente:
+  - Son **promedios por marca, no conteos por vehículo**. No sirven para agrupar autos por número de puertas ("autos de 4 puertas") ni para hacer gráficas de barras por conteo.
+  - Como el 70.64 % de los valores es el mismo número imputado, la varianza baja artificialmente y las correlaciones con estas columnas se distorsionan. En la G y la H conviene filtrar con `Tiene_Datos_UCI = 1`.
+  - **Pendiente de confirmar con el equipo:** cambiarles el nombre (por ejemplo `Puertas_Prom_Marca` y `Cilindros_Prom_Marca`) o indicarlo en el reporte, para que el decimal no se lea como un error.
+- **Dónde está:** `Seccion_B9-10_C_Magaly.ipynb`, resumen de UCI por fabricante (`uci_resumen`) · `Seccion_D_Magaly.ipynb`, inciso 15 (imputación con la mediana) · relacionada con la observación 10.

@@ -1,0 +1,19 @@
+# Dependencias de la Práctica 02 (Python 3.12)
+# Instalar con:  pip install -r requirements.txt
+
+# Datos (el dataset se descarga por código, no se sube al repositorio)
+ucimlrepo>=0.0.7
+
+# Procesamiento y modelos
+numpy
+pandas
+scipy
+scikit-learn
+tensorflow
+
+# Visualización
+matplotlib
+
+# Entorno de notebooks
+jupyter
+psutil

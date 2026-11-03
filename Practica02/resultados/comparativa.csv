@@ -1,0 +1,5 @@
+metodo,tiempo_s,tiempo_entrenamiento_s,tiempo_proyeccion_s,stress_sammon,knn_exactitud_media,knn_exactitud_std,error_reconstruccion_mse,notas
+PCA,pendiente,no aplica,no aplica,pendiente,pendiente,pendiente,pendiente,pendiente
+Sammon,pendiente,no aplica,no aplica,pendiente,pendiente,pendiente,no aplica,pendiente
+Sammon sobre PCA,pendiente,no aplica,no aplica,pendiente,pendiente,pendiente,no aplica,pendiente
+Autocodificador,pendiente,pendiente,pendiente,pendiente,pendiente,pendiente,pendiente,pendiente
