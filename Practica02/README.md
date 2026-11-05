@@ -203,7 +203,7 @@ P1 las programa, las prueba y las sube **antes** de que los demás empiecen:
 - [x] Definir `SEED`, `CLASES`, `COLORES_CLASE`, `COLORES_METODO`.
 - [x] Programar y probar todas las funciones compartidas (sección 3.9).
 - [x] Crear la carpeta `resultados/` y la plantilla de `comparativa.csv` con las columnas acordadas.
-- [ ] Subir al repo y avisar al equipo.
+- [x] Subir al repo y avisar al equipo.
 
 **Sección 1 — Visualización inicial y estandarización (10 pts)**
 - [x] **1a.** Calcular la varianza de las 30 variables **originales**, elegir las 6 de mayor varianza y graficar un diagrama de caja y bigotes por cada una (separado por clase si se ve bien).
@@ -215,29 +215,29 @@ P1 las programa, las prueba y las sube **antes** de que los demás empiecen:
 
 Usa la función `pca_mas_sammon(X_std, k)` y la función de Sammon adaptada que P3 deja en el notebook. **No reprogramar Sammon**, para que los resultados sean consistentes con los de P3. Mientras P3 la sube, se avanza con la sección 1.
 
-- [ ] **3g.** Correr `pca_mas_sammon` para k ∈ {3, 5, 10, 20, 30} con la misma semilla. Graficar **stress final contra k** (reportar el stress de la librería y el stress contra `X_std`, aclarando cuál es cuál).
-- [ ] **3h.** Exactitud de k-NN con `evaluar_knn` para cada k. Hacer **las dos versiones** mientras el profe no conteste (ver sección 7):
+- [x] **3g.** Correr `pca_mas_sammon` para k ∈ {3, 5, 10, 20, 30} con la misma semilla. Graficar **stress final contra k** (reportar el stress de la librería y el stress contra `X_std`, aclarando cuál es cuál).
+- [x] **3h.** Exactitud de k-NN con `evaluar_knn` para cada k. Hacer **las dos versiones** mientras el profe no conteste (ver sección 7):
   - Versión A: k-NN sobre los datos de PCA a k dimensiones.
   - Versión B: k-NN sobre la proyección de Sammon 3D obtenida desde cada k.
   - Graficar exactitud contra k (las dos versiones en la misma gráfica, con leyenda).
-- [ ] **3i.** Tabla con: tiempo total del 3a (lo da P3), tiempo total c)+d), stress final y exactitud k-NN para cada k.
-- [ ] Exportar `sammon_vs_k.csv` (el tablero lo usa para las gráficas contra k).
+- [x] **3i.** Tabla con: tiempo total del 3a (lo da P3), tiempo total c)+d), stress final y exactitud k-NN para cada k.
+- [x] Exportar `sammon_vs_k.csv` (el tablero lo usa para las gráficas contra k).
 - [ ] Pasarle a P4 un párrafo corto con lo que observaste del barrido de k (para el 5b).
-- [ ] ⚠️ Son 5 corridas de Sammon. Dejarlas corriendo con tiempo, no el último día.
+- [x] ⚠️ Son 5 corridas de Sammon. En la laptop de Melanie cada una tarda de 15 a 50 s; el notebook completo, unos 5 min.
 
 ---
 
 ### P2 — Sección 2 (PCA) y Sección 6 (tablero)
 
 **Sección 2 — PCA (30 pts)**
-- [ ] **2b PRIMERO** (P3 lo necesita): ajustar PCA con todas las componentes sobre `X_std`, hacer la tabla de varianza explicada y acumulada de los 10 primeros PC, y **reportar cuántos PC acumulan al menos 95%** de la varianza. Guardarlo en la variable `k95` y avisar a P3 en cuanto lo tengas.
-- [ ] **2a.** PCA a 3D sobre `X_std` midiendo el tiempo de `fit_transform`.
-- [ ] **2c.** Gráfica de barras de varianza explicada por PC con línea superpuesta de varianza acumulada. Marcar la línea del 95%. Las dos series están en porcentaje, así que basta **un solo eje**.
-- [ ] **2d.** Círculo de correlaciones (PC1 vs PC2): flechas de las variables dentro del círculo unitario. Las correlaciones son `componentes × sqrt(varianza)`. Si 30 flechas se amontonan, etiquetar solo las más largas y explicarlo.
-- [ ] **2e.** Scatter 3D de PC1, PC2, PC3 con `COLORES_CLASE`.
-- [ ] **2f.** Curva de error de reconstrucción (MSE) contra k = 1…30.
-- [ ] Calcular para la tabla 5a: `stress_sammon(X_std, Z_pca3)`, `evaluar_knn(Z_pca3, y)` y el MSE de reconstrucción con k = 3.
-- [ ] Exportar `pca_varianza.csv`, `pca_error_reconstruccion.csv`, `pca_3d.csv` y la fila de PCA para `comparativa.csv`.
+- [x] **2b PRIMERO** (P3 lo necesita): ajustar PCA con todas las componentes sobre `X_std`, hacer la tabla de varianza explicada y acumulada de los 10 primeros PC, y **reportar cuántos PC acumulan al menos 95%** de la varianza. Guardarlo en la variable `k95` y avisar a P3 en cuanto lo tengas.
+- [x] **2a.** PCA a 3D sobre `X_std` midiendo el tiempo de `fit_transform`.
+- [x] **2c.** Gráfica de barras de varianza explicada por PC con línea superpuesta de varianza acumulada. Marcar la línea del 95%. Las dos series están en porcentaje, así que basta **un solo eje**.
+- [x] **2d.** Círculo de correlaciones (PC1 vs PC2): flechas de las variables dentro del círculo unitario. Las correlaciones son `componentes × sqrt(varianza)`. Si 30 flechas se amontonan, etiquetar solo las más largas y explicarlo.
+- [x] **2e.** Scatter 3D de PC1, PC2, PC3 con `COLORES_CLASE`.
+- [x] **2f.** Curva de error de reconstrucción (MSE) contra k = 1…30.
+- [x] Calcular para la tabla 5a: `stress_sammon(X_std, Z_pca3)`, `evaluar_knn(Z_pca3, y)` y el MSE de reconstrucción con k = 3.
+- [x] Exportar `pca_varianza.csv`, `pca_error_reconstruccion.csv`, `pca_3d.csv` y la fila de PCA para `comparativa.csv`.
 
 **Sección 6 — Tablero (35 pts)**
 - [ ] **Empezar desde ya con datos de prueba** usando el formato de CSV acordado; al final solo se cambian los archivos.
@@ -260,17 +260,17 @@ Implementación de referencia: https://github.com/tompollard/sammon
 
 **Antes de empezar:** leer las advertencias de Sammon en la sección 6.
 
-- [ ] **PRIORIDAD (P1 la necesita):** programar y subir pronto `pca_mas_sammon(X_std, k)` en la Sección 3 del notebook. Hace 3c + 3d y regresa un diccionario con `t_pca`, `t_sammon`, `t_total`, `Z` (proyección 3D), `stress_libreria` y `stress_xstd`. P1 usará esos nombres en 3g–3i. Avisar a P1 cuando esté lista.
-- [ ] Adaptar la función de tompollard para guardar el historial de stress (ver advertencias) y dejarla en una celda de la Sección 3, para que P1 use la misma.
-- [ ] **3a.** Sammon a 3D sobre `X_std` con `SEED`, midiendo el tiempo total. Graficar la **curva de stress por iteración**. Guardar `Z_sammon` y `stress_libreria_directo`, que P1 también usará en 3g–3i.
-- [ ] **3b.** Scatter 3D de la proyección de 3a.
-- [ ] **3c.** PCA de `X_std` a k dimensiones (k = `k95`, el número de PC con ≥95% de varianza que calcula P2 en el 2b), midiendo el tiempo.
-- [ ] **3d.** Sammon con la misma semilla sobre el resultado de 3c, midiendo el tiempo.
-- [ ] **3e.** Scatter 3D de la proyección de 3d.
-- [ ] **3f.** Procrustes entre 3a y 3d con `scipy.spatial.procrustes`. Reportar la **disparidad** (0 = idénticas) y explicar qué significa.
-- [ ] Calcular para la tabla 5a, tanto para Sammon como para Sammon sobre PCA: `stress_sammon(X_std, Z)` y `evaluar_knn(Z, y)`.
-- [ ] Guardar el **tiempo total del 3a** en la variable `t_sammon_directo`, que P1 usa en la tabla del 3i.
-- [ ] Exportar `sammon_3d.csv`, `sammon_pca_3d.csv`, `sammon_stress_iteraciones.csv`, `sammon_procrustes.csv` y las filas de Sammon y Sammon sobre PCA para `comparativa.csv`.
+- [x] **PRIORIDAD (P1 la necesita):** programar y subir pronto `pca_mas_sammon(X_std, k)` en la Sección 3 del notebook. Hace 3c + 3d y regresa un diccionario con `t_pca`, `t_sammon`, `t_total`, `Z` (proyección 3D), `stress_libreria` y `stress_xstd`. P1 usará esos nombres en 3g–3i. Avisar a P1 cuando esté lista.
+- [x] Adaptar la función de tompollard para guardar el historial de stress (ver advertencias) y dejarla en una celda de la Sección 3, para que P1 use la misma.
+- [x] **3a.** Sammon a 3D sobre `X_std` con `SEED`, midiendo el tiempo total. Graficar la **curva de stress por iteración**. Guardar `Z_sammon` y `stress_libreria_directo`, que P1 también usará en 3g–3i.
+- [x] **3b.** Scatter 3D de la proyección de 3a.
+- [x] **3c.** PCA de `X_std` a k dimensiones (k = `k95`, el número de PC con ≥95% de varianza que calcula P2 en el 2b), midiendo el tiempo.
+- [x] **3d.** Sammon con la misma semilla sobre el resultado de 3c, midiendo el tiempo.
+- [x] **3e.** Scatter 3D de la proyección de 3d.
+- [x] **3f.** Procrustes entre 3a y 3d con `scipy.spatial.procrustes`. Reportar la **disparidad** (0 = idénticas) y explicar qué significa.
+- [x] Calcular para la tabla 5a, tanto para Sammon como para Sammon sobre PCA: `stress_sammon(X_std, Z)` y `evaluar_knn(Z, y)`.
+- [x] Guardar el **tiempo total del 3a** en la variable `t_sammon_directo`, que P1 usa en la tabla del 3i.
+- [x] Exportar `sammon_3d.csv`, `sammon_pca_3d.csv`, `sammon_stress_iteraciones.csv`, `sammon_procrustes.csv` y las filas de Sammon y Sammon sobre PCA para `comparativa.csv`.
 - [ ] Pasarle a P4 un párrafo corto con lo que observaste de Sammon (para el 5b).
 
 ---
@@ -322,7 +322,8 @@ Fase 3 (integración)
                                               │
                                               ▼
 Fase 4 (cierre)
-  Restart & Run All del notebook en una sola máquina → revisión cruzada → checklist → comprimido
+  Restart & Run All del notebook en una sola máquina (cuando ya estén todas las secciones)
+  → cada quien actualiza los números de su reporte con esa corrida → revisión cruzada → checklist → comprimido
 ```
 
 **Quién espera a quién:**
@@ -335,6 +336,13 @@ Fase 4 (cierre)
 | P1 (3i) | Tiempo total del 3a | P3 |
 | P4 (5a y 5b) | Filas de `comparativa.csv` y un párrafo de cada quien | Todos |
 | P2 (tablero final) | Todos los CSV | Todos |
+
+**Corrida final y números del reporte (acordado el 05/11/2026):**
+- Mientras se avanza, **cada quien agrega sus celdas sin volver a ejecutar las secciones de los demás**. Si quieres probar tu parte, ejecuta una copia del notebook fuera del repo.
+- Cuando **todas las secciones estén listas** (incluidas la 4 y la 5 de Santiago), una sola persona hace **un Restart & Run All del notebook completo en una sola computadora**. Esa corrida es la oficial.
+- **Todos los números del reporte salen de esa corrida**: tiempos, stress, exactitud de k-NN, disparidad de Procrustes y error de reconstrucción. Cada quien puede ir escribiendo su texto desde ahora, pero deja los números como provisionales hasta la corrida final.
+- Motivo: Sammon no da lo mismo en todas las computadoras (el 3d y el 3f cambian aunque se use la misma semilla), el autocodificador tampoco es 100% reproducible y los tiempos varían incluso entre corridas en la misma máquina. Si se mezclan salidas de corridas distintas, las tablas no van a cuadrar entre secciones. Más detalle en la sección 6 y en la Tabla 3.8 del notebook.
+- Después de la corrida final: actualizar el equipo de cómputo en el reporte (Sección 0), revisar que la interpretación del 3f siga siendo válida y que el párrafo de cada quien para el 5b use los números finales.
 
 **Reglas de trabajo en el repo:**
 - **Solo una persona tiene el notebook a la vez.** Un `.ipynb` da conflictos muy difíciles de resolver en Git.
@@ -360,10 +368,11 @@ Fase 4 (cierre)
 - ⚠️ La función de tompollard **no guarda el historial de stress por iteración** (regresa solo la proyección y el stress final). Copiarla a una celda del notebook, citar la fuente y agregar una lista que guarde el stress en cada iteración, con un comentario que lo explique.
 - ⚠️ La **semilla fija solo influye si la inicialización es aleatoria**. La función usa PCA por defecto, que es determinista, y no fija la semilla por su cuenta. Como el PDF pide semilla fija, usar `init='random'` y llamar a `np.random.seed(SEED)` antes de cada corrida. **Explicarlo en el reporte.**
 - ⚠️ Sammon divide entre las distancias originales: **puntos duplicados (distancia 0) rompen el algoritmo**. P1 ya revisa duplicados en la Sección 0.
-- ⚠️ Sammon es O(n²) por iteración; con 569 puntos corre bien, pero el 3g son 5 corridas más. Dejarlo corriendo con tiempo.
+- ⚠️ Sammon es O(n²) por iteración; con 569 puntos corre bien. En la laptop de Melanie cada corrida tarda de 15 a 50 s (las que llegan a `maxiter` son las más lentas) y el notebook completo, unos 5 min.
 - ⚠️ P3 y P1 deben usar **exactamente la misma función de Sammon, los mismos parámetros y la misma semilla**. Si no, el resultado del 3d (P3) y el de k = k95 en el barrido (P1) no van a coincidir y se nota en la presentación.
 - ⚠️ **k = 3 en el barrido:** PCA ya deja los datos en 3D, así que el stress de la librería debe acercarse a 0 sin que eso signifique que el método sea mejor. El stress contra `X_std` es el que permite comparar.
-- ⚠️ **k = 30 en el barrido:** PCA solo rota los datos, así que con la misma semilla debe dar prácticamente lo mismo que el 3a. Sirve de comprobación.
+- ⚠️ **k = 30 en el barrido:** PCA solo rota los datos, así que en teoría debe dar lo mismo que el 3a. En la práctica, el redondeo de la rotación basta para que Sammon termine en otra configuración: el stress sale casi igual, pero la disparidad de Procrustes no es 0. La Tabla 3.8 lo muestra y lo explica.
+- ⚠️ **Sammon no da lo mismo en todas las computadoras.** Con la misma semilla, el 3a sale idéntico, pero el 3d cambia según la máquina y la versión de NumPy (en una laptop converge y en otra llega a `maxiter`), y con él el stress, el k-NN y la disparidad del 3f. Por eso **todos los números del reporte deben salir de la misma corrida final** (Restart & Run All en una sola máquina).
 - ⚠️ Recordar la diferencia de stress (sección 3.6): el de la librería es respecto a su entrada; el de la tabla comparativa es respecto a `X_std` en 30D.
 
 **Autocodificador (P4)**
@@ -395,7 +404,7 @@ Responsable de preguntar: _(nombre)_ — Fecha en que se preguntó: _(fecha)_ �
 **Cada quien escribe la sección de lo que programó.** Antes de empezar, definan entre todos:
 - Quién arma la portada, el índice, la introducción y las referencias.
 - Quién junta las secciones en un solo documento y revisa la numeración de figuras y tablas.
-- Quién hace el `Restart & Run All` final del notebook, en una sola máquina. Los tiempos del reporte se toman de esa corrida.
+- Quién hace el `Restart & Run All` final del notebook, en una sola máquina, cuando ya estén todas las secciones. **Todos los números del reporte** (no solo los tiempos) se toman de esa corrida (ver sección 5, "Corrida final").
 - Quién arma el comprimido final con el nombre correcto.
 
 Cada quien también se encarga de la cabecera y los comentarios de sus celdas según ReglasEvaluación.
