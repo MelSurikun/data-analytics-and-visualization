@@ -1,5 +1,5 @@
 metodo,tiempo_s,tiempo_entrenamiento_s,tiempo_proyeccion_s,stress_sammon,knn_exactitud_media,knn_exactitud_std,error_reconstruccion_mse,notas
-PCA,pendiente,no aplica,no aplica,pendiente,pendiente,pendiente,pendiente,pendiente
-Sammon,pendiente,no aplica,no aplica,pendiente,pendiente,pendiente,no aplica,pendiente
-Sammon sobre PCA,pendiente,no aplica,no aplica,pendiente,pendiente,pendiente,no aplica,pendiente
-Autocodificador,pendiente,pendiente,pendiente,pendiente,pendiente,pendiente,pendiente,pendiente
+PCA,0.0006,no aplica,no aplica,0.0593,0.9332,0.0226,0.2736,3 componentes; stress contra X_std (30D); MSE en el espacio estandarizado
+Sammon,1.2606,no aplica,no aplica,0.0175,0.9367,0.0128,no aplica,Sammon sobre X_std; stress contra X_std (30D)
+Sammon sobre PCA,1.3076,no aplica,no aplica,0.0185,0.935,0.0106,no aplica,PCA a k = 10 + Sammon; tiempo = PCA + Sammon; stress contra X_std (30D)
+Autocodificador,7.6799,7.6273,0.0526,0.1374,0.942,0.018,0.2007,Entrada: datos originales; tiempo = entrenamiento + proyección; stress contra X_std (30D)

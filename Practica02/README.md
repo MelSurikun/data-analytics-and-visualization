@@ -280,25 +280,25 @@ Implementación de referencia: https://github.com/tompollard/sammon
 Referencias: https://ekamperi.github.io/machine%20learning/2021/01/21/encoder-decoder-model.html y https://www.kaggle.com/code/saivarunk/dimensionality-reduction-using-keras-auto-encoder
 
 **Sección 4 — Autocodificador (30 pts)**
-- [ ] Definir la entrada (ver pregunta pendiente sobre "datos originales"; mientras, usar `X_std` y justificarlo).
-- [ ] Arquitectura **no lineal** sugerida: `30 → 16 → 8 → 3 → 8 → 16 → 30`, activaciones no lineales (ReLU o tanh) en capas ocultas, salida lineal. Justificar la arquitectura en el reporte.
-- [ ] Fijar semillas con `tf.keras.utils.set_random_seed(SEED)`.
-- [ ] Entrenar con `validation_split` y `EarlyStopping` (restaurando los mejores pesos). Graficar pérdida de entrenamiento y validación por época.
-- [ ] Medir **por separado**: i) tiempo de **entrenamiento** y ii) tiempo de **proyección** con el codificador ya entrenado.
-- [ ] Graficar el **espacio latente** en 3D con `COLORES_CLASE`.
-- [ ] Calcular el **error de reconstrucción** (MSE en el mismo espacio que PCA), `stress_sammon(X_std, Z_ae)` y `evaluar_knn(Z_ae, y)`.
-- [ ] Exportar `autoencoder_3d.csv`, `autoencoder_perdida.csv` y la fila del autocodificador para `comparativa.csv`.
+- [x] Definir la entrada: la red recibe los **datos originales** (`X`) y su primera capa (`Normalization`) los estandariza con la media y la varianza del `scaler` de la Sección 0. La salida se compara con `X_std`, así que el MSE se puede comparar con el de PCA (ver pregunta 2).
+- [x] Arquitectura **no lineal** `30 → 16 → 8 → 3 → 8 → 16 → 30`, con ELU en las capas ocultas y capa latente y de salida lineales. Justificar la arquitectura en el reporte.
+- [x] Fijar semillas con `tf.keras.utils.set_random_seed(SEED)`.
+- [x] Entrenar con `EarlyStopping` (restaurando los mejores pesos) y 20% de validación con `train_test_split` estratificado. No se usó `validation_split` porque toma las últimas filas, que tienen menos malignos que el total. Graficar pérdida de entrenamiento y validación por época.
+- [x] Medir **por separado**: i) tiempo de **entrenamiento** y ii) tiempo de **proyección** con el codificador ya entrenado.
+- [x] Graficar el **espacio latente** en 3D con `COLORES_CLASE`.
+- [x] Calcular el **error de reconstrucción** (MSE en el mismo espacio que PCA), `stress_sammon(X_std, Z_ae)` y `evaluar_knn(Z_ae, y)`.
+- [x] Exportar `autoencoder_3d.csv`, `autoencoder_perdida.csv` y la fila del autocodificador para `comparativa.csv`.
 
 **Sección 5 — Análisis y conclusiones (35 pts)**
-- [ ] **Mientras llegan los resultados:** escribir el marco del análisis, es decir, qué se espera de un método lineal (PCA), de uno que preserva distancias (Sammon) y de uno no lineal (autocodificador).
-- [ ] **5a.** Juntar en `comparativa.csv` las filas de todos en **una tabla única**: PCA, Sammon, Sammon sobre PCA y autocodificador × tiempo, stress de Sammon, exactitud k-NN y error de reconstrucción ("no aplica" donde corresponda). Revisar que todos hayan usado las funciones compartidas; si un número no cuadra, avisar a quien lo generó.
-- [ ] **5b.** Pedir a cada quien un párrafo corto sobre lo que observó en su parte y escribir el contraste. Debe responder:
+- [x] **Mientras llegan los resultados:** escribir el marco del análisis, es decir, qué se espera de un método lineal (PCA), de uno que preserva distancias (Sammon) y de uno no lineal (autocodificador).
+- [x] **5a.** Juntar en `comparativa.csv` las filas de todos en **una tabla única**: PCA, Sammon, Sammon sobre PCA y autocodificador × tiempo, stress de Sammon, exactitud k-NN y error de reconstrucción ("no aplica" donde corresponda). Revisar que todos hayan usado las funciones compartidas; si un número no cuadra, avisar a quien lo generó.
+- [x] **5b.** Pedir a cada quien un párrafo corto sobre lo que observó en su parte y escribir el contraste (escrito con los resultados de cada quien; cada quien revisa lo de su método en «Patrones en 3D»). Debe responder:
   - ¿Qué diferencias hay en los resultados (tiempo, stress, k-NN, reconstrucción)?
   - ¿Cómo ayuda cada técnica a ver patrones en 3D (separación de clases, forma de los grupos, traslape)?
   - ¿PCA lineal vs Sammon (preserva distancias) vs autocodificador (no lineal), qué gana y qué pierde cada uno?
   - ¿Qué método conviene para este dataset y por qué?
-- [ ] **Ponerse de acuerdo con P2:** la conclusión del análisis y la del tablero tienen que decir lo mismo.
-- [ ] Mantener un tono honesto: no exagerar diferencias pequeñas (por ejemplo, si la exactitud de k-NN difiere por menos de la desviación estándar, decirlo).
+- [ ] **Ponerse de acuerdo con P2:** la conclusión del análisis y la del tablero tienen que decir lo mismo (conclusión del 5b: **Sammon**).
+- [x] Mantener un tono honesto: no exagerar diferencias pequeñas (por ejemplo, si la exactitud de k-NN difiere por menos de la desviación estándar, decirlo).
 
 ---
 
@@ -343,6 +343,7 @@ Fase 4 (cierre)
 - **Todos los números del reporte salen de esa corrida**: tiempos, stress, exactitud de k-NN, disparidad de Procrustes y error de reconstrucción. Cada quien puede ir escribiendo su texto desde ahora, pero deja los números como provisionales hasta la corrida final.
 - Motivo: Sammon no da lo mismo en todas las computadoras (el 3d y el 3f cambian aunque se use la misma semilla), el autocodificador tampoco es 100% reproducible y los tiempos varían incluso entre corridas en la misma máquina. Si se mezclan salidas de corridas distintas, las tablas no van a cuadrar entre secciones. Más detalle en la sección 6 y en la Tabla 3.8 del notebook.
 - Después de la corrida final: actualizar el equipo de cómputo en el reporte (Sección 0), revisar que la interpretación del 3f siga siendo válida y que el párrafo de cada quien para el 5b use los números finales.
+- **Corrida oficial (06/11/2026):** la hizo Santiago con las Secciones 0 a 5, en su MacBook Air (Apple M4, 16 GB, macOS 27.2); el equipo queda impreso en la Sección 0. Para la Sección 6 basta con leer los CSV de `resultados/` de esta corrida.
 
 **Reglas de trabajo en el repo:**
 - **Solo una persona tiene el notebook a la vez.** Un `.ipynb` da conflictos muy difíciles de resolver en Git.
@@ -396,6 +397,8 @@ Fase 4 (cierre)
 | 2 | **Punto 4:** dice "datos originales", pero una red neuronal necesita datos escalados. ¿Podemos usar los estandarizados? | El PDF lo pone en negritas, así que conviene **preguntar pronto**. Usar `X_std` y justificarlo en el reporte (escala, convergencia y comparabilidad del MSE con PCA). Alternativa si exige los originales: darlos como entrada con una capa `Normalization` dentro del modelo. |
 
 Responsable de preguntar: _(nombre)_ — Fecha en que se preguntó: _(fecha)_ — Respuesta: _(pendiente)_
+
+**Pregunta 2:** ya no hace falta preguntarla. El autocodificador recibe los datos originales y los estandariza en su primera capa (la alternativa de la tabla), así que se cumple el enunciado y el MSE sigue siendo comparable con el de PCA.
 
 ---
 
